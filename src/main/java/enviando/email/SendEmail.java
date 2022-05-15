@@ -1,8 +1,5 @@
 package enviando.email;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import javax.mail.Address;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -17,24 +14,29 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-{
+public class SendEmail {
 
     /**
      * Omitting Email and Password
      */
     private final Path path = Paths.get("C:\\Users\\Desktop\\Documents\\email_pass.txt");
-
     private final String userEmail = Files.readAllLines(path).get(0);
     private final String userPassword = Files.readAllLines(path).get(1);
+    private String listOfRecipients = "";
+    private String sender = "";
+    private String emailSubject = "";
+    private String textEmail = "";
 
-    public AppTest() throws IOException { }
+    public SendEmail(String listOfRecipients, String sender, String emailSubject, String textEmail) throws IOException
+    {
+        this.listOfRecipients = listOfRecipients;
+        this.sender = sender;
+        this.emailSubject = emailSubject;
+        this.textEmail = textEmail;
+        emailSendTo();
+    }
 
-    @Test
-    public void testEmail()
+    public void emailSendTo()
     {
 
         try {
@@ -55,13 +57,13 @@ public class AppTest
                 }
             });
 
-            Address[] toUser = InternetAddress.parse(userEmail);
+            Address[] toUser = InternetAddress.parse(listOfRecipients);
             Message message = new MimeMessage(session);
 
-            message.setFrom(new InternetAddress(userEmail, "Cleonildo Jr")); /* Who Send */
+            message.setFrom(new InternetAddress(userEmail, sender)); /* Who Send */
             message.setRecipients(Message.RecipientType.TO, toUser); /* Who Receive */
-            message.setSubject("Teste do email enviado pelo JavaMail");
-            message.setText("Teste corpo do email JavaMail");
+            message.setSubject(emailSubject);
+            message.setText(textEmail);
 
             Transport.send(message);
 
@@ -69,9 +71,5 @@ public class AppTest
             e.printStackTrace();
         }
 
-        Assert.assertTrue(true);
-
     }
-
-    /* Check SMTP of Email */
 }
