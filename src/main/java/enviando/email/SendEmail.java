@@ -33,10 +33,9 @@ public class SendEmail {
         this.sender = sender;
         this.emailSubject = emailSubject;
         this.textEmail = textEmail;
-        emailSendTo();
     }
 
-    public void emailSendTo()
+    public void emailSendTo(boolean isHTML)
     {
 
         try {
@@ -63,7 +62,9 @@ public class SendEmail {
             message.setFrom(new InternetAddress(userEmail, sender)); /* Who Send */
             message.setRecipients(Message.RecipientType.TO, toUser); /* Who Receive */
             message.setSubject(emailSubject);
-            message.setText(textEmail);
+
+            if(isHTML) message.setContent(textEmail, "text/html; charset=utf-8");
+            if(!isHTML) message.setText(textEmail);
 
             Transport.send(message);
 
