@@ -37,11 +37,14 @@ class SendEmailTest {
 
         stringBuffer.append("testando botao de link<br/><br/>");
 
-        stringBuffer.append("<a target=\"_blank\" " +
+        stringBuffer.append(
+
+                "<a target=\"_blank\" " +
                 "href=\"https://mega.ibxk.com.br/2016/09/13/13183726350674.jpg?ims=610x\"" +
                 " style=\"color: #2525A7; padding: 14px; text-align:center; " +
                 "text-decoration:none; display: inline-block; border-radius: 30px; font-siz: 20px; font-family: courier; " +
-                "border: 3px solid green;\">");
+                "border: 3px solid green;\">"
+        );
 
 
         stringBuffer.append("Consegue ver o gatinho?");
@@ -53,6 +56,15 @@ class SendEmailTest {
                  stringBuffer.toString()
 
         ).emailSendTo(true);
+
+
+        new SendEmail(
+                userEmail,
+                "Cleonildo Junior",
+                "Email enviado atravez do JavaMail",
+                 stringBuffer.toString()
+
+        ).emailSendToWithAttachment(true);
 
 
         assertTrue(true);
